@@ -36,21 +36,21 @@
 	<link rel="canonical" href="https://pixio.dexignzone.com/xhtml/index-2.html">
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/x-icon" href="images/favicon.png">
+<link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
 
 	<!-- MOBILE SPECIFIC -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- STYLESHEETS -->
-	<link rel="stylesheet" type="text/css" href="vendor/magnific-popup/magnific-popup.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/swiper/swiper-bundle.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-	<link rel="stylesheet" type="text/css" href="vendor/lightgallery/dist/css/lightgallery.css">
-	<link rel="stylesheet" type="text/css" href="vendor/lightgallery/dist/css/lg-thumbnail.css">
-	<link rel="stylesheet" type="text/css" href="vendor/lightgallery/dist/css/lg-zoom.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link class="skin" type="text/css" rel="stylesheet" href="css/skin/skin-1.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/magnific-popup/magnific-popup.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/swiper/swiper-bundle.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/animate/animate.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/lightgallery/dist/css/lightgallery.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/lightgallery/dist/css/lg-thumbnail.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/lightgallery/dist/css/lg-zoom.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+<link class="skin" type="text/css" rel="stylesheet" href="{{ asset('css/skin/skin-1.css') }}">
 
 
     <style>
@@ -79,7 +79,7 @@
 				<div class="container clearfix">
 					<!-- Website Logo -->
 					<div class="logo-header logo-dark" style="width:140px; height:auto;">
-						<a href="index-2.html"><img src="images/logo.jpg" alt="logo"></a>
+						<a href="index-2.html"><img src="images/logo1.png" alt="logo"></a>
 					</div>
 
 					<!-- EXTRA NAV -->

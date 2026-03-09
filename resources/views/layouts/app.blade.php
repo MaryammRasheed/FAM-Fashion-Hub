@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <title>@yield('title', 'My Website')</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'FAM Fashion Hub')</title>
+    @yield('styles')
 </head>
 <body>
-
-    @include('layouts.header')   <!-- Dynamic Header -->
-
-    <main>
-        @yield('content')       <!-- Page-specific content -->
-    </main>
-
-    @include('layouts.footer')   <!-- Dynamic Footer -->
-
-    <script src="{{ asset('js/custom.js') }}"></script>
+    @yield('content')
+    @yield('scripts')
 </body>
 </html>
