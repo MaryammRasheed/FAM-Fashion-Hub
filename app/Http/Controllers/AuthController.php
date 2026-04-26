@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,25 +10,55 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Show Login Page
+    // ── SHOW LOGIN PAGE ───────────────────────────────────────────────────────
     public function showLogin()
     {
+        if (Auth::check()) {
+            return $this->redirectByRole(Auth::user());
+        }
         return view('auth.login');
     }
 
-    // Show Register Page
+    // ── SHOW REGISTER PAGE ────────────────────────────────────────────────────
     public function showRegister()
     {
+        if (Auth::check()) {
+            return $this->redirectByRole(Auth::user());
+        }
         return view('auth.register');
     }
 
-    // Register Logic
+    // ── LOGIN ─────────────────────────────────────────────────────────────────
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = [
+            'email'    => $request->email,
+            'password' => $request->password
+        ];
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return $this->redirectByRole(Auth::user());
+        }
+
+        return back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => 'Email ya password galat hai!']);
+    }
+
+    // ── REGISTER ──────────────────────────────────────────────────────────────
     public function register(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name'                  => 'required|string|max:255',
+            'email'                 => 'required|email|unique:users,email',
+            'password'              => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required',
         ]);
 
         $user = User::create([
@@ -38,38 +69,27 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        $request->session()->regenerate();
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Welcome to FAM Fashion Hub!');
     }
 
-    // Login Logic
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
-        ]);
-
-if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-    $request->session()->regenerate(); // ✅ yeh line add karo
-    $user = Auth::user();
-
-    if ($user->role === 'admin') {
-        return redirect('/admin/dashboard');
-    } elseif ($user->role === 'vendor') {
-        return redirect('/vendor/dashboard');
-    } else {
-        return redirect('/');
-    }
-}
-
-        return back()->withErrors(['email' => 'Email ya password galat hai!']);
-    }
-
-    // Logout
+    // ── LOGOUT ────────────────────────────────────────────────────────────────
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login')->with('success', 'Logout ho gaye. Dobara aayein!');
+    }
+
+    // ── ROLE-BASED REDIRECT ───────────────────────────────────────────────────
+    private function redirectByRole($user)
+    {
+        return match ($user->role) {
+            'admin'  => redirect('/admin/dashboard'),
+            'vendor' => redirect('/vendor/dashboard'),
+            default  => redirect('/'),
+        };
     }
 }

@@ -1,108 +1,112 @@
 @extends('layouts.app')
 
-@section('title', 'Register')
-
 @section('content')
 
-@include('layouts.header')
-
-<div class="page-content bg-light">
-    <section class="px-3">
-        <div class="row align-center-center">
-            <div class="col-xxl-6 col-xl-6 col-lg-6 start-side-content">
-                <div class="dz-bnr-inr-entry">
-                    <h1>Registration</h1>
-                    <nav aria-label="breadcrumb text-align-start" class="breadcrumb-row">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="breadcrumb-item">Shop Registration</li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="registration-media">
-                    <img src="{{ asset('images/registration/pic3.png') }}" alt="/">
-                </div>
+<div class="page-content">
+    <!-- Page Banner -->
+    <div class="dz-bnr-inr dz-bnr-inr-sm overlay-black-middle" style="background:#1a1a1a; padding: 60px 0;">
+        <div class="container">
+            <div class="dz-bnr-inr-entry text-center">
+                <h1 class="text-white">Register</h1>
+                <nav aria-label="breadcrumb" class="breadcrumb-row">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Register</li>
+                    </ul>
+                </nav>
             </div>
-            <div class="col-xxl-6 col-xl-6 col-lg-6 end-side-content">
-                <div class="login-area">
-                    <h2 class="text-secondary text-center">Registration Now</h2>
-                    <p class="text-center m-b30">Welcome! Please register your account</p>
+        </div>
+    </div>
+    <!-- Page Banner End -->
 
-                    {{-- Error Messages --}}
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            {{ $errors->first() }}
-                        </div>
-                    @endif
+    <section class="content-inner-2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-lg-6 col-md-8">
+                    <div class="login-area">
+                        <div class="dz-ajax-overlay">
+                            <div class="dz-form dzForm">
+                                <h3 class="form-title m-t0">Create Account</h3>
+                                <p class="text-muted">Join FAM Fashion Hub - Pakistan's #1 Fashion Marketplace</p>
 
-                    <form action="{{ url('/register') }}" method="POST">
-                        @csrf
+                                {{-- Error Messages --}}
+                                @if($errors->any())
+                                    <div class="alert alert-danger">
+                                        @foreach($errors->all() as $error)
+                                            <p class="mb-0">{{ $error }}</p>
+                                        @endforeach
+                                    </div>
+                                @endif
 
-                        <div class="m-b25">
-                            <label class="label-title">Username</label>
-                            <input name="name"
-                                required
-                                class="form-control"
-                                placeholder="Username"
-                                type="text"
-                                value="{{ old('name') }}">
-                        </div>
+                                <form action="{{ route('register.submit') }}" method="POST">
+                                    @csrf
 
-                        <div class="m-b25">
-                            <label class="label-title">Email Address</label>
-                            <input name="email"
-                                required
-                                class="form-control"
-                                placeholder="Email Address"
-                                type="email"
-                                value="{{ old('email') }}">
-                        </div>
+                                    <div class="form-group mb-3">
+                                        <label class="font-weight-700 font-sm">Full Name</label>
+                                        <div class="input-group">
+                                            <input name="name" required=""
+                                                class="form-control"
+                                                placeholder="Enter your full name"
+                                                type="text"
+                                                value="{{ old('name') }}">
+                                        </div>
+                                    </div>
 
-                        <div class="m-b25">
-                            <label class="label-title">Password</label>
-                            <div class="secure-input">
-                                <input type="password"
-                                    name="password"
-                                    class="form-control dz-password"
-                                    placeholder="Password">
-                                <div class="show-pass">
-                                    <i class="eye-open fa-regular fa-eye"></i>
+                                    <div class="form-group mb-3">
+                                        <label class="font-weight-700 font-sm">Email Address</label>
+                                        <div class="input-group">
+                                            <input name="email" required=""
+                                                class="form-control"
+                                                placeholder="Enter your email"
+                                                type="email"
+                                                value="{{ old('email') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label class="font-weight-700 font-sm">Password</label>
+                                        <div class="input-group">
+                                            <input name="password" required=""
+                                                class="form-control"
+                                                placeholder="Minimum 6 characters"
+                                                type="password"
+                                                minlength="6">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="font-weight-700 font-sm">Confirm Password</label>
+                                        <div class="input-group">
+                                            <input name="password_confirmation" required=""
+                                                class="form-control"
+                                                placeholder="Repeat your password"
+                                                type="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="submit"
+                                            class="btn btn-secondary btn-block">
+                                            CREATE ACCOUNT
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                                <div class="text-center mt-3">
+                                    <p>Already have an account?
+                                        <a href="{{ route('login') }}" class="text-secondary font-weight-700">
+                                            Login Here
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="m-b40">
-                            <label class="label-title">Confirm Password</label>
-                            <div class="secure-input">
-                                <input type="password"
-                                    name="password_confirmation"
-                                    class="form-control dz-password"
-                                    placeholder="Confirm Password">
-                                <div class="show-pass">
-                                    <i class="eye-open fa-regular fa-eye"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-center">
-                            <button type="submit"
-                                class="btn btn-secondary btnhover text-uppercase me-2">
-                                Register
-                            </button>
-                            <a href="{{ url('/login') }}"
-                                class="btn btn-outline-secondary btnhover text-uppercase">
-                                Sign In
-                            </a>
-                        </div>
-
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
 
-@include('layouts.footer')
-
 @endsection
-

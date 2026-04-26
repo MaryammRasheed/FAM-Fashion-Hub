@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'FAM Fashion Hub')</title>
-    @yield('styles')
-</head>
-<body>
+{{--
+    FAM Fashion Hub - Main App Layout
+    Your header.blade.php contains: <!DOCTYPE html>, <head>, all CSS, <body>, navbar
+    Your footer.blade.php contains: footer HTML + all JS scripts + </body></html>
+    So this layout just @includes both and puts @yield('content') in between.
+--}}
+@include('layouts.header')
+
+    {{-- Flash Messages --}}
+    @if(session('success'))
+        <div class="container mt-2">
+            <div class="alert alert-success alert-dismissible fade show py-2">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="container mt-2">
+            <div class="alert alert-danger alert-dismissible fade show py-2">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    @endif
+
+    {{-- Page Content --}}
     @yield('content')
-    @yield('scripts')
-</body>
-</html>
+
+@include('layouts.footer')

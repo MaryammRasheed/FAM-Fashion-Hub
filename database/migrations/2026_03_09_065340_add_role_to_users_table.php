@@ -6,25 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->enum('role', ['customer', 'vendor', 'admin'])->default('customer')->after('email');
-        $table->string('phone')->nullable()->after('role');
-        $table->string('address')->nullable()->after('phone');
-    });
-}
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->string('role')->default('customer');
+            }
+            if (!Schema::hasColumn('users', 'phone')) {
+                $table->string('phone')->nullable();
+            }
+            if (!Schema::hasColumn('users', 'address')) {
+                $table->text('address')->nullable();
+            }
+        });
+    }
 
-    /**
-     * Reverse the migrations.
-     */
-  public function down()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn(['role', 'phone', 'address']);
-    });
-}
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $cols = ['role', 'phone', 'address'];
+            foreach ($cols as $col) {
+                if (Schema::hasColumn('users', $col)) {
+                    $table->dropColumn($col);
+                }
+            }
+        });
+    }
 };
